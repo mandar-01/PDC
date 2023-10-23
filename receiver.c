@@ -3,13 +3,14 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <unistd.h>
 
 #define PORT 8080
 
 int main() {
     int server_sock, client_sock;
-    struct sockaddr_in server, client;
-    char buffer[1024] = {0};
+    struct sockaddr_in server;
+    char buffer[1024];
 
     // Create a socket for the server
     server_sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -37,7 +38,7 @@ int main() {
     printf("Receiver is waiting for a connection...\n");
     
     // Accept the connection
-    client_sock = accept(server_sock, (struct sockaddr *)&client, NULL);
+    client_sock = accept(server_sock, NULL, NULL);
 
     // Receive data from the sender
     recv(client_sock, buffer, sizeof(buffer), 0);
